@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/dashboard.css">
+    <script src="/javascripts/dashboard.js"></script>
+    <script src="https://kit.fontawesome.com/f4e52fe305.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+<main>
+    <nav class="main-menu">
+        <h1>DASHBOARD</h1>
+        <ul>
+            <li class="nav-item <%= activePage === 'inicio' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/inicio">
+                    <i class="fa fa-house nav-icon"></i>
+                    <span class="nav-text">Inicio</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'estadisticas' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/estadisticas">
+                    <i class="fa fa-person-running nav-icon"></i>
+                    <span class="nav-text">Estadísticas</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'usuarios' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/usuarios">
+                    <i class="fa fa-user nav-icon"></i>
+                    <span class="nav-text">Usuarios</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'AplicarEncuesta' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/AplicarEncuesta">
+                    <i class="fa fa-calendar-check nav-icon"></i>
+                    <span class="nav-text">Aplicar Encuesta</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'reportes' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/reportes">
+                    <i class="fa fa-sliders nav-icon"></i>
+                    <span class="nav-text">Reportes</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="content">
+        <div class="left-content">
+            <% if (activePage === 'inicio') { %>
+                <div class="activities">
+                    <h1>Evaluaciones</h1>
+                    <div class="activity-container">
+                        <% formulariosConImagenes.forEach(({nombre, imagen}, index) => { %>
+
+                            <div class="image-container img-three">
+                                <img src="<%= imagen %>"
+                                     alt="running"/>
+                                <div class="overlay">
+                                    <h3><%= nombre %></h3>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            <% } else if (activePage === 'estadisticas') { %>
+                <div class="left-bottom">
+                    <div class="weekly-schedule">
+                        <h1>CALENDARIO DE EVALUACIONES</h1>
+                        <div class="calendar">
+                            <div class="day-and-activity activity-one">
+                                <div class="day">
+                                    <h1>11</h1>
+                                    <p>SEPT</p>
+                                </div>
+                                <div class="activity">
+                                    <h2>ING SISTEMAS</h2>
+
+                                </div>
+                                <button class="btn">ver</button>
+                            </div>
+
+                            <div class="day-and-activity activity-two">
+                                <div class="day">
+                                    <h1>15</h1>
+                                    <p>SEPT</p>
+                                </div>
+                                <div class="activity">
+                                    <h2>ING CIVIL</h2>
+                                </div>
+                                <button class="btn">ver</button>
+                            </div>
+
+                            <div class="day-and-activity activity-three">
+                                <div class="day">
+                                    <h1>18</h1>
+                                    <p>SEPT</p>
+                                </div>
+                                <div class="activity">
+                                    <h2>ING LOGISTICA</h2>
+                                </div>
+                                <button class="btn">ver</button>
+                            </div>
+
+                            <div class="day-and-activity activity-four">
+                                <div class="day">
+                                    <h1>21</h1>
+                                    <p>SEPT</p>
+                                </div>
+                                <div class="activity">
+                                    <h2>ING INDUSTRIAL</h2>
+
+                                </div>
+                                <button class="btn">ver</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } else if (activePage === 'AplicarEncuesta') { %>
+                <div class="left-bottom">
+                    <div class="personal-bests">
+                        <h1>Personal Bests</h1>
+                        <div class="personal-bests-container">
+                            <div class="best-item box-one">
+                                <p>Fastest 5K Run: 22min</p>
+                                <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/242bbd8c-aaf8-4aee-a3e4-e0df62d1ab27"
+                                     alt=""/>
+                            </div>
+                            <div class="best-item box-two">
+                                <p>Longest Distance Cycling: 4 miles</p>
+                                <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/a3b3cb3a-5127-498b-91cc-a1d39499164a"
+                                     alt=""/>
+                            </div>
+                            <div class="best-item box-three">
+                                <p>Longest Roller-Skating: 2 hours</p>
+                                <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/e0ee8ffb-faa8-462a-b44d-0a18c1d9604c"
+                                     alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } else if (activePage === 'usuarios') { %>
+                <div class="friends-activity">
+                    <h1>ACTIVIDAD</h1>
+                    <div class="card-container">
+                        <% respuestas.forEach((respuesta) => { %> <!-- Iterar respuestas -->
+                        <div class="card">
+                            <% headers.forEach((header) => { %> <!-- Iterar sobre los encabezados -->
+                            <div class="card-item">
+                                <h3><%= header %></h3> <!-- Mostrar la pregunta (encabezado) -->
+                                <p><%= respuesta[header] || "Sin respuesta" %></p> <!-- Mostrar la respuesta -->
+                            </div>
+                            <% }) %>
+                        </div>
+                        <% }) %>
+                    </div>
+
+                </div>
+            <% } else if (activePage === 'reportes') { %>
+                <div class="activity-container">
+                    <% formulariosConImagenes.forEach((formulario) => { %>
+                        <div class="active-calories">
+                            <h1 style="align-self: flex-start">
+                                <%= formulario.nombre %>
+                            </h1>
+                            <div class="active-calories-container">
+                                <div class="box" style="--i: <%= formulario.porcentaje %>%">
+                                    <div class="circle">
+                                        <h2><%= formulario.porcentaje %>
+                                            <small>%</small></h2>
+                                    </div>
+                                </div>
+                                <div class="calories-content">
+                                    <p><span>esta sem:</span> <%= formulario.weeklyCount %></p>
+                                    <p><span>este mes:</span> <%= formulario.monthlyCount %></p>
+                                    <p><span>total:</span> <%= formulario.totalCount %></p>
+                                </div>
+                            </div>
+                            <div>
+                                <!-- Botón que redirige a otra vista con el parámetro "nombre" -->
+                                <a href="/home/metricas?encuesta=<%= encodeURIComponent(formulario.nombre) %>&&urlencuenta=<%= encodeURIComponent(formulario.urlExcel) %>"
+                                   class="btn">ver</a>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else if (activePage === 'metricas') { %>
+                <div class="friends-activity">
+                    <div class="card-container">
+                        <h1>Detalles de: <%= nombreFormulario %></h1>
+
+                        <% headers.forEach((header, index) => { %> <!-- Iterar sobre los encabezados -->
+                        <div class="card-item">
+                            <h3><%= header %></h3> <!-- Mostrar la pregunta (encabezado) -->
+                            <!-- Contenedor con un ID dinámico basado en el índice -->
+                            <div id="chart-<%= index %>" style="width: 600px; height: 400px;"></div>
+                            <p>Aquí puedes mostrar más información sobre <%= nombreFormulario %>.</p>
+                            <a href="/reportes">Regresar a reportes</a>
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% } %>
+
+        </div>
+
+        <div class="right-content">
+            <div class="user-info">
+
+                <div class="icon-container">
+                    <i class="fa fa-bell nav-icon"></i>
+                    <i class="fa fa-message nav-icon"></i>
+                </div>
+                <h4 class="nombreg">Diego Oswaldo Martinez Salazar</h4>
+
+                <div class="icon-container">
+                    <a href="/logout">
+                        <i class="fa-solid fa-arrow-right-from-bracket nav-icon"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mobile-personal-bests">
+                <h1>Personal Bests</h1>
+                <div class="personal-bests-container">
+                    <div class="best-item box-one">
+                        <p>Fastest 5K Run: 22min</p>
+                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/05dfc444-9ed3-44cc-96af-a9cf195f5820"
+                             alt=""/>
+                    </div>
+                    <div class="best-item box-two">
+                        <p>Longest Distance Cycling: 4 miles</p>
+                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/9ca170e9-1252-4fa6-8677-36493540c1f2"
+                             alt=""/>
+                    </div>
+                    <div class="best-item box-three">
+                        <p>Longest Roller-Skating: 2 hours</p>
+                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/262d1611-ed4c-4297-981c-480cf7f95714"
+                             alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="friends-activity">
+                <h1>FEATURES</h1>
+                <div class="card-container">
+                    <!-- Card 1 -->
+                    <div class="card">
+                        <div class="card-user-info">
+                            <h2>Mejoras de Diseño</h2>
+                        </div>
+                        <p>
+                            Implementación de una interfaz más intuitiva y atractiva para los usuarios, mejorando la
+                            experiencia visual y de navegación.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="card card-two">
+                        <div class="card-user-info">
+                            <h2>Optimización de Gráficas</h2>
+                        </div>
+                        <p>
+                            Reducción del tiempo de carga de gráficos interactivos mediante el uso de bibliotecas más
+                            eficientes y estructuras de datos mejoradas.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <div class="card-user-info">
+                            <h2>Reducción de Procesado</h2>
+                        </div>
+                        <p>
+                            Optimización de algoritmos para acelerar el procesamiento de grandes volúmenes de datos,
+                            logrando reducir el tiempo de ejecución en un 30%.
+                        </p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="card card-two">
+                        <div class="card-user-info">
+                            <h2>Automatización de Tareas</h2>
+                        </div>
+                        <p>
+                            Implementación de scripts automatizados para tareas administrativas, reduciendo la
+                            intervención manual y minimizando errores.
+                        </p>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="card">
+                        <div class="card-user-info">
+                            <h2>Acceso Multidispositivo</h2>
+                        </div>
+                        <p>
+                            Adaptación del sitio para que sea completamente responsivo y funcional en dispositivos
+                            móviles, tabletas y escritorio.
+                        </p>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="card card-two">
+                        <div class="card-user-info">
+                            <h2>Integración de Herramientas Educativas</h2>
+                        </div>
+                        <p>
+                            Añadido soporte para plataformas externas como Google Classroom, Microsoft Teams y otras
+                            herramientas educativas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</main>
+<script type="text/javascript">
+    // Asegúrate de que este script se cargue después de que los elementos HTML estén disponibles
+    document.addEventListener("DOMContentLoaded", function () {
+        // Simulamos datos dinámicos para cada pregunta
+        const chartData = [
+            {title: 'Pregunta 1', data: [{value: 40, name: 'Sí'}, {value: 60, name: 'No'}]},
+            {title: 'Pregunta 2', data: [{value: 70, name: 'Excelente'}, {value: 30, name: 'Regular'}]},
+            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
+
+            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
+
+            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
+
+            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
+
+            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
+
+            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
+            // Agrega más datos según sea necesario
+        ];
+
+        // Itera sobre los datos y genera un gráfico para cada contenedor
+        chartData.forEach((item, index) => {
+            const chartContainer = document.getElementById(`chart-${index}`);
+            if (chartContainer) {
+                const myChart = echarts.init(chartContainer);
+
+                const option = {
+                    title: {
+                        text: item.title,
+                        left: 'center',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{b} : {c} ({d}%)',
+                    },
+                    series: [
+                        {
+                            type: 'pie',
+                            radius: '65%',
+                            center: ['50%', '50%'],
+                            data: item.data,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                },
+                            },
+                        },
+                    ],
+                };
+
+                myChart.setOption(option);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

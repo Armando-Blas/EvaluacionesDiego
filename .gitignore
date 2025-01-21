@@ -1,0 +1,57 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Temporal Files
+tmp/
+temp/
+
+# Debugging/Testing
+*.swp
+*.swo
+.DS_Store
+.idea/
+.vscode/
+*.pid
+*.seed
+*.pid.lock
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Output Files
+public/build/
+dist/
+build/
+
+# Coverage Reports
+coverage/
+
+# PM2 Logs and Configurations
+pm2-logs/
+pm2/
+*.pid
+
+# Editor Files
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# OS-specific files
+Thumbs.db
+.DS_Store
+._*
+
+# Miscellaneous
+*.bak
+*.old
+*package-lock.json
