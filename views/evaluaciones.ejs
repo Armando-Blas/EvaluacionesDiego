@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/dashboard.css">
+    <script src="/javascripts/dashboard.js"></script>
+    <script src="https://kit.fontawesome.com/f4e52fe305.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+<main>
+    <nav class="main-menu">
+        <h1>DASHBOARD</h1>
+        <ul>
+            <li class="nav-item <%= activePage === 'inicio' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/inicio">
+                    <i class="fa fa-house nav-icon"></i>
+                    <span class="nav-text">Inicio</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'estadisticas' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/estadisticas">
+                    <i class="fa fa-person-running nav-icon"></i>
+                    <span class="nav-text">Estadísticas</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'usuarios' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/usuarios">
+                    <i class="fa fa-user nav-icon"></i>
+                    <span class="nav-text">Usuarios</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'AplicarEncuesta' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/AplicarEncuesta">
+                    <i class="fa fa-calendar-check nav-icon"></i>
+                    <span class="nav-text">Aplicar Encuesta</span>
+                </a>
+            </li>
+
+            <li class="nav-item <%= activePage === 'reportes' ? 'active' : '' %>">
+                <b></b>
+                <b></b>
+                <a href="/home/reportes">
+                    <i class="fa fa-sliders nav-icon"></i>
+                    <span class="nav-text">Reportes</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="content">
+        <div class="left-content">
+            <% if (activePage === 'save') { %>
+                <div class="evaluacionguardar">
+                    <h1>Guardar Evaluaciones</h1>
+                    <form id="saveForm" class="form-container">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Nombre de la evaluación"
+                                   required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="urlImagen">URL de la Imagen</label>
+                            <input type="url" id="urlImagen" name="urlImagen"
+                                   placeholder="https://ejemplo.com/imagen.jpg" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="urlExcel">URL del Excel</label>
+                            <input type="url" id="urlExcel" name="urlExcel"
+                                   placeholder="https://ejemplo.com/archivo.xlsx" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <select id="tipo" name="tipo" required>
+                                <option value="0">Alumno</option>
+                                <option value="1">Directivo</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-submit">Guardar</button>
+                    </form>
+                </div>
+            <% } else if (activePage === 'info') { %>
+                <div class="activities">
+                    <h1>Detalles de la evaluacion de <%= nombre %></h1>
+                    <div class="activity-container">
+                        <!-- Formulario para agregar evaluación -->
+
+                        <form class="image-container img-three">
+                            <a href="/evaluaciones/edit?id=<%= encodeURIComponent(idFormulario) %>" class="btn-icon">
+                                <i class="fas fa-edit"></i> <!-- Icono para editar -->
+                                <div class="overlay">
+                                    <h3>Editar evaluación</h3>
+                                </div>
+                            </a>
+                        </form>
+
+                        <!-- Formulario para eliminar evaluación -->
+                        <form id="deleteForm" class="image-container img-three">
+                            <!-- Campo oculto para pasar el ID de la evaluación -->
+                            <input type="hidden" name="idFormulario" value="<%= idFormulario %>"/>
+
+                            <button type="submit" class="btn-icon">
+                                <div class="overlay">
+                                    <h3>Eliminar evaluación</h3>
+                                </div>
+
+                                <!-- Botón para eliminar -->
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+
+
+                    </div>
+
+                </div>
+            <% } else if (activePage === 'edit') { %>
+                <div class="evaluacionguardar">
+                    <h1>Editar Evaluación</h1>
+                    <form id="editForm" class="form-container">
+                        <input type="hidden" id="id" name="id" value="<%= evaluacion.id %>"/>
+
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Nombre de la evaluación"
+                                   value="<%= evaluacion.nombre %>" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="urlImagen">URL de la Imagen</label>
+                            <input type="url" id="urlImagen" name="urlImagen"
+                                   placeholder="https://ejemplo.com/imagen.jpg"
+                                   value="<%= evaluacion.url_imagen %>" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="urlExcel">URL del Excel</label>
+                            <input type="url" id="urlExcel" name="urlExcel"
+                                   placeholder="https://ejemplo.com/archivo.xlsx"
+                                   value="<%= evaluacion.url_excel %>" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <select id="tipo" name="tipo" required>
+                                <option value="0" <%= evaluacion.tipo === 0 ? 'selected' : '' %>>Alumno</option>
+                                <option value="1" <%= evaluacion.tipo === 1 ? 'selected' : '' %>>Directivo</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-submit">Guardar cambios</button>
+                    </form>
+                </div>
+            <% } %>
+
+        </div>
+
+        <div class="right-content">
+            <div class="user-info">
+
+                <div class="icon-container">
+                    <i class="fa fa-bell nav-icon"></i>
+                    <i class="fa fa-message nav-icon"></i>
+                </div>
+                <h4 class="nombreg">Diego Oswaldo Martinez Salazar</h4>
+
+                <div class="icon-container">
+                    <a href="/logout">
+                        <i class="fa-solid fa-arrow-right-from-bracket nav-icon"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mobile-personal-bests">
+                <h1>Personal Bests</h1>
+                <div class="personal-bests-container">
+                    <div class="best-item box-one">
+                        <p>Fastest 5K Run: 22min</p>
+                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/05dfc444-9ed3-44cc-96af-a9cf195f5820"
+                             alt=""/>
+                    </div>
+                    <div class="best-item box-two">
+                        <p>Longest Distance Cycling: 4 miles</p>
+                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/9ca170e9-1252-4fa6-8677-36493540c1f2"
+                             alt=""/>
+                    </div>
+                    <div class="best-item box-three">
+                        <p>Longest Roller-Skating: 2 hours</p>
+                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/262d1611-ed4c-4297-981c-480cf7f95714"
+                             alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="friends-activity">
+                <h1>FEATURES</h1>
+                <div class="card-container">
+                    <!-- Card 1 -->
+                    <div class="card">
+                        <div class="card-user-info">
+                            <h2>Mejoras de Diseño</h2>
+                        </div>
+                        <p>
+                            Implementación de una interfaz más intuitiva y atractiva para los usuarios, mejorando la
+                            experiencia visual y de navegación.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="card card-two">
+                        <div class="card-user-info">
+                            <h2>Optimización de Gráficas</h2>
+                        </div>
+                        <p>
+                            Reducción del tiempo de carga de gráficos interactivos mediante el uso de bibliotecas
+                            más
+                            eficientes y estructuras de datos mejoradas.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <div class="card-user-info">
+                            <h2>Reducción de Procesado</h2>
+                        </div>
+                        <p>
+                            Optimización de algoritmos para acelerar el procesamiento de grandes volúmenes de datos,
+                            logrando reducir el tiempo de ejecución en un 30%.
+                        </p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="card card-two">
+                        <div class="card-user-info">
+                            <h2>Automatización de Tareas</h2>
+                        </div>
+                        <p>
+                            Implementación de scripts automatizados para tareas administrativas, reduciendo la
+                            intervención manual y minimizando errores.
+                        </p>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="card">
+                        <div class="card-user-info">
+                            <h2>Acceso Multidispositivo</h2>
+                        </div>
+                        <p>
+                            Adaptación del sitio para que sea completamente responsivo y funcional en dispositivos
+                            móviles, tabletas y escritorio.
+                        </p>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="card card-two">
+                        <div class="card-user-info">
+                            <h2>Integración de Herramientas Educativas</h2>
+                        </div>
+                        <p>
+                            Añadido soporte para plataformas externas como Google Classroom, Microsoft Teams y otras
+                            herramientas educativas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</main>
+<script>
+    const saveForm = document.getElementById('saveForm');
+
+    if (saveForm) {
+        saveForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/guardar-evaluacion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Evaluación guardada exitosamente.');
+                    window.location.href = '/home/inicio'; // Redirige a /home/inicio
+                } else {
+                    alert('Hubo un error al guardar la evaluación.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al guardar la evaluación.' + error);
+            }
+        });
+    }
+
+    const deleteForm = document.getElementById('deleteForm');
+
+    if (deleteForm) {
+        deleteForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Evita que el formulario se envíe automáticamente
+
+            // Muestra la alerta de confirmación
+            const userConfirmed = confirm('¿Estás seguro de que deseas eliminar esta evaluación?');
+
+            if (userConfirmed) {
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch('/api/delete-evaluacion', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        alert('Evaluación eliminada exitosamente.');
+                        window.location.href = '/home/inicio'; // Redirige a /home/inicio
+                    } else {
+                        alert('Hubo un error al eliminar la evaluación.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error al eliminar la evaluación: ' + error.message);
+                }
+            } else {
+                // El usuario canceló la acción, no hacemos nada
+                alert('La eliminación ha sido cancelada.');
+            }
+        });
+    }
+    const editForm = document.getElementById('editForm');
+
+    if (editForm) {
+        editForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(editForm);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/editar-evaluacion', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Evaluación actualizada exitosamente.');
+                    window.location.href = '/home/inicio'; // Redirige a la lista de evaluaciones
+                } else {
+                    alert('Hubo un error al actualizar la evaluación.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al actualizar la evaluación: ' + error.message);
+            }
+        });
+    }
+
+
+</script>
+
+</body>
+</html>

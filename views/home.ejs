@@ -67,15 +67,21 @@
                 <div class="activities">
                     <h1>Evaluaciones</h1>
                     <div class="activity-container">
-                        <% formulariosConImagenes.forEach(({nombre, imagen}, index) => { %>
-
-                            <div class="image-container img-three">
-                                <img src="<%= imagen %>"
-                                     alt="running"/>
+                        <!-- Botón para agregar evaluación -->
+                        <a href="/evaluaciones/save" class="image-container img-three">
+                            <i class="fas fa-plus"></i>
+                            <div class="overlay">
+                                <h3>Agregar evaluación</h3>
+                            </div>
+                        </a>
+                        <% formulariosConImagenes.forEach(({id, nombre, imagen}, index) => { %>
+                            <a href="/evaluaciones/info?id=<%= encodeURIComponent(id) %>&&nombre=<%= encodeURIComponent(nombre) %>"
+                               class="image-container img-three">
+                                <img src="<%= imagen %>" alt="running"/>
                                 <div class="overlay">
                                     <h3><%= nombre %></h3>
                                 </div>
-                            </div>
+                            </a>
                         <% }); %>
                     </div>
                 </div>

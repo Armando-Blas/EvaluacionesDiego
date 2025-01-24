@@ -182,8 +182,19 @@ main {
 .activity-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(6, 250px);
+    grid-template-rows: repeat(10, 250px);
     column-gap: 10px;
+}
+.btn-icon {
+    background: none;
+    border: none;
+    font-size: 2rem;  /* Ajusta el tamaño de los iconos */
+    cursor: pointer;
+    color: #333;  /* Color del icono */
+}
+
+.btn-icon:hover {
+    color: #007bff;  /* Color al pasar el cursor */
 }
 
 .image-container {
@@ -191,6 +202,13 @@ main {
     margin-bottom: 10px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
     border-radius: 10px;
+    overflow: hidden; /* Para evitar que algo sobresalga del contenedor */
+    display: flex; /* Necesario para centrar contenido */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    text-decoration: none; /* Elimina subrayados si es un enlace */
+    color: inherit; /* Usa el color de texto original */
+    background-color: #f4f4f4; /* Opcional: fondo para visibilidad */
 }
 
 .image-container img {
@@ -199,6 +217,92 @@ main {
     border-radius: 10px;
     object-fit: cover;
 }
+
+.image-container .fas {
+    font-size: 4rem; /* Ajusta el tamaño del ícono para que sea más grande */
+    color: #4caf50; /* Cambia el color del ícono */
+}
+
+.image-container:hover {
+    cursor: pointer; /* Cambia el cursor al pasar sobre el contenedor */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px; /* Agrega un efecto hover */
+    background-color: #e8e8e8; /* Leve cambio de fondo en hover */
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px;
+    text-align: center;
+}
+
+.evaluacionguardar {
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+.evaluacionguardar h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn-submit {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
 
 .overlay {
     position: absolute;
