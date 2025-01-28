@@ -94,10 +94,48 @@
                 </div>
             <% } else if (activePage === 'info') { %>
                 <div class="activities">
-                    <h1>Detalles de la evaluacion de <%= nombre %></h1>
+                    <h1>Detalles de la evaluación de <%= nombre %></h1>
+
+                    <!-- Tabla con los detalles de la evaluación -->
+                    <div class="details-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Atributo</th>
+                                <th>Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>ID</td>
+                                <td><%= idFormulario %></td>
+                            </tr>
+                            <tr>
+                                <td>Nombre</td>
+                                <td><%= evaluacion.nombre %></td>
+                            </tr>
+                            <tr>
+                                <td>URL de la Imagen</td>
+                                <td>
+                                    <a href="<%= evaluacion.url_imagen %>"><%= evaluacion.url_imagen %></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>URL del Excel</td>
+                                <td>
+                                    <a href="<%= evaluacion.url_excel %>"><%= evaluacion.url_excel %></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tipo</td>
+                                <td><%= evaluacion.tipo === 0 ? 'Alumno' : 'Directivo' %></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Contenedor para los formularios -->
                     <div class="activity-container">
                         <!-- Formulario para agregar evaluación -->
-
                         <form class="image-container img-three">
                             <a href="/evaluaciones/edit?id=<%= encodeURIComponent(idFormulario) %>" class="btn-icon">
                                 <i class="fas fa-edit"></i> <!-- Icono para editar -->

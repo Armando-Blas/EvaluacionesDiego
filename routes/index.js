@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+let idFormulario=1;
 router.get('/', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');

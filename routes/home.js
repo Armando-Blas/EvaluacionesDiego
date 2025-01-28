@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const googleSheetRoutes = require("./googleSheetRoutes");
+const googleSheetRoutesUnique = require("./googleSheetRoutesUnique");
 const googleSheetRoutesAll = require("./googleSheetRoutesAll");
 const googleSheetRoutesById = require("./googleSheetRoutesById");
 const connection = require('../config/database');
@@ -52,7 +53,8 @@ router.get('/', (req, res) => {
         res.render('home', {
             activePage: 'inicio',
             title: 'EVALUACIONES DOCENTES',
-            formulariosConImagenes: formulariosConImagenes
+            formulariosConImagenes: formulariosConImagenes,
+            info
         });
     });
 });
@@ -77,20 +79,44 @@ router.get('/inicio', (req, res) => {
         res.render('home', {
             activePage: 'inicio',
             title: 'EVALUACIONES DOCENTES',
-            formulariosConImagenes: formulariosConImagenes
+            formulariosConImagenes: formulariosConImagenes,
+            info: info
         });
     });
 });
 
 router.get('/usuarios', async (req, res) => {
     try {
-        const response = await googleSheetRoutes.getData(); // Llama a la función para obtener los datos
+        //const response = await googleSheetRoutes.getData(); // Llama a la función para obtener los datos
         res.render('home', {
             activePage: 'usuarios',
             title: 'EVALUACIONES DOCENTES',
+            //respuestas: response.data,
+            //headers: response.headers,
+            formulariosConImagenes: formulariosConImagenes, info
+        });
+    } catch (error) {
+        console.error("Error en la ruta /usuarios:", error);
+        res.status(500).send("Error al cargar los datos.");
+    }
+});
+
+router.get('/encuesta-data', async (req, res) => {
+    try {
+        const idFormulario = req.query.idFormulario;
+        const formulario = formulariosConImagenes.find(f => f.id === Number(idFormulario));  // Convierte idFormulario a número si es un string
+
+        console.log("Formulario encontrado:", formulario);
+        console.log(formulario.urlExcel)
+        const sheetId = await getSheetIdFromUrl(formulario.urlExcel);
+        console.log(sheetId)
+        const response = await googleSheetRoutesUnique.getData(sheetId); // Llama a la función para obtener los datos
+        res.render('home', {
+            activePage: 'encuesta-data',
+            title: 'EVALUACIONES DOCENTES',
             respuestas: response.data,
             headers: response.headers,
-            formulariosConImagenes: formulariosConImagenes
+            formulariosConImagenes: formulariosConImagenes, info
         });
     } catch (error) {
         console.error("Error en la ruta /usuarios:", error);
@@ -103,7 +129,7 @@ router.get('/AplicarEncuesta', (req, res) => {
     res.render('home', {
         activePage: 'AplicarEncuesta',
         title: 'EVALUACIONES DOCENTES',
-        formulariosConImagenes: formulariosConImagenes
+        formulariosConImagenes: formulariosConImagenes, info
     });
 });
 
@@ -111,7 +137,7 @@ router.get('/estadisticas', (req, res) => {
     res.render('home', {
         activePage: 'estadisticas',
         title: 'EVALUACIONES DOCENTES',
-        formulariosConImagenes: formulariosConImagenes
+        formulariosConImagenes: formulariosConImagenes, info
     });
 });
 
@@ -151,7 +177,7 @@ router.get('/reportes', async (req, res) => {
         res.render('home', {
             activePage: 'reportes',
             title: 'EVALUACIONES DOCENTES',
-            formulariosConImagenes: formCount
+            formulariosConImagenes: formCount, info
         });
     } catch (error) {
         console.error("Error en la ruta /reportes:", error);
@@ -160,19 +186,25 @@ router.get('/reportes', async (req, res) => {
 });
 
 router.get('/metricas', async (req, res) => {
-    const nombreFormulario = req.query.encuesta; // Obtener el parámetro "nombre" de la URL
-    console.log(req.query.urlencuenta)
-    const sheetId = getSheetIdFromUrl(req.query.urlencuenta);
+    const idFormulario = req.query.idFormulario; // Obtener el parámetro "nombre" de la URL
+    const formulario = formulariosConImagenes.find(f => f.id === Number(idFormulario));  // Convierte idFormulario a número si es un string
+    console.log(req.query.idFormulario)
+    console.log("Formulario encontrado:", formulario);
+    console.log(formulario.urlExcel)
 
+    const sheetId = await getSheetIdFromUrl(formulario.urlExcel);
+    console.log(sheetId)
     const response = await googleSheetRoutesById.getData(sheetId); // Llama a la función para obtener los datos
+    console.log(response.processedData)
     console.log("preguntas: " + response.preguntas);
 
     res.render('home', {
         activePage: 'metricas',
-        title: `Detalles de ${nombreFormulario}`,
+        title: `Detalles de ${formulario.nombre}`,
         headers: response.preguntas,
         info: response.processedData,
-        nombreFormulario,
+        idFormulario: idFormulario,
+        nombreFormulario: formulario.nombre,
     });
 });
 

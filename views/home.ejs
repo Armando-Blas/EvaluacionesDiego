@@ -162,6 +162,19 @@
                     </div>
                 </div>
             <% } else if (activePage === 'usuarios') { %>
+                <div class="friends-activity"><h1>Respuestas por encuesta</h1>
+                    <div class="personal-bests-containerencuestas">
+                        <% formulariosConImagenes.forEach((formulario) => { %>
+                            <a href="/home/encuesta-data?idFormulario=<%= encodeURIComponent(formulario.id) %>"
+                               class="btnUsuarios">
+                                <div class="best-item box-one tipo-<%= formulario.tipo %>">
+                                    <p><%= formulario.nombre %></p>
+                                </div>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
+            <% } else if (activePage === 'encuesta-data') { %>
                 <div class="friends-activity">
                     <h1>ACTIVIDAD</h1>
                     <div class="card-container">
@@ -176,7 +189,6 @@
                         </div>
                         <% }) %>
                     </div>
-
                 </div>
             <% } else if (activePage === 'reportes') { %>
                 <div class="activity-container">
@@ -200,7 +212,7 @@
                             </div>
                             <div>
                                 <!-- Botón que redirige a otra vista con el parámetro "nombre" -->
-                                <a href="/home/metricas?encuesta=<%= encodeURIComponent(formulario.nombre) %>&&urlencuenta=<%= encodeURIComponent(formulario.urlExcel) %>"
+                                <a href="/home/metricas?idFormulario=<%= encodeURIComponent(formulario.id) %>"
                                    class="btn">ver</a>
                             </div>
                         </div>
@@ -216,10 +228,9 @@
                             <h3><%= header %></h3> <!-- Mostrar la pregunta (encabezado) -->
                             <!-- Contenedor con un ID dinámico basado en el índice -->
                             <div id="chart-<%= index %>" style="width: 600px; height: 400px;"></div>
-                            <p>Aquí puedes mostrar más información sobre <%= nombreFormulario %>.</p>
-                            <a href="/reportes">Regresar a reportes</a>
                         </div>
                         <% }) %>
+                        <a href="/home/reportes">Regresar a reportes</a>
                     </div>
                 </div>
             <% } %>
@@ -339,59 +350,69 @@
     </section>
 </main>
 <script type="text/javascript">
+
     // Asegúrate de que este script se cargue después de que los elementos HTML estén disponibles
     document.addEventListener("DOMContentLoaded", function () {
         // Simulamos datos dinámicos para cada pregunta
-        const chartData = [
-            {title: 'Pregunta 1', data: [{value: 40, name: 'Sí'}, {value: 60, name: 'No'}]},
-            {title: 'Pregunta 2', data: [{value: 70, name: 'Excelente'}, {value: 30, name: 'Regular'}]},
-            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
+        let chartData = <%- JSON.stringify(info) %>;
+        chartData = JSON.parse(JSON.stringify(chartData).replace(/&#34;/g, '"'));
 
-            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
 
-            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
-
-            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
-
-            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
-
-            {title: 'Pregunta 3', data: [{value: 50, name: 'Aprobado'}, {value: 50, name: 'Reprobado'}]},
-            // Agrega más datos según sea necesario
-        ];
-
+        console.log(chartData)
         // Itera sobre los datos y genera un gráfico para cada contenedor
+
         chartData.forEach((item, index) => {
             const chartContainer = document.getElementById(`chart-${index}`);
+
             if (chartContainer) {
                 const myChart = echarts.init(chartContainer);
 
-                const option = {
-                    title: {
-                        text: item.title,
-                        left: 'center',
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{b} : {c} ({d}%)',
-                    },
-                    series: [
-                        {
-                            type: 'pie',
-                            radius: '65%',
-                            center: ['50%', '50%'],
-                            data: item.data,
-                            emphasis: {
-                                itemStyle: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                if (item.type === "pie") {
+                    // Gráfico circular
+                    const option = {
+                        title: { left: "center" },
+                        tooltip: { trigger: "item", formatter: "{b} : {c} ({d}%)" },
+                        series: [
+                            {
+                                type: "pie",
+                                radius: "65%",
+                                center: ["50%", "50%"],
+                                data: item.data,
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: "rgba(0, 0, 0, 0.5)",
+                                    },
                                 },
                             },
-                        },
-                    ],
-                };
-
-                myChart.setOption(option);
+                        ],
+                    };
+                    myChart.setOption(option);
+                } else if (item.type === "line") {
+                    // Gráfico de línea para fechas
+                    const option = {
+                        title: { left: "center" },
+                        tooltip: { trigger: "axis", formatter: "{b}: {c}" },
+                        xAxis: { type: "category", data: item.data.map((d) => d.name) },
+                        yAxis: { type: "value" },
+                        series: [
+                            {
+                                type: "line",
+                                data: item.data.map((d) => d.value[1]),
+                            },
+                        ],
+                    };
+                    myChart.setOption(option);
+                } else if (item.type === "list") {
+                    // Mostrar preguntas abiertas como lista
+                    const listHtml = item.data
+                        .map((response, idx) => `<li>${idx + 1}. ${response}</li>`)
+                        .join("");
+                    chartContainer.innerHTML = `
+                    <ul>${listHtml}</ul>
+                `;
+                }
             }
         });
     });

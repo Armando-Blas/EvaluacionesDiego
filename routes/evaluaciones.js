@@ -130,12 +130,27 @@ router.get('/save', (req, res) => {
 router.get('/info/', (req, res) => {
     const idFormulario = req.query.id;
     const nombre = req.query.nombre;
-    res.render('evaluaciones', {
-        activePage: 'info',
-        title: 'info encuestas',
-        formulariosConImagenes: formulariosConImagenes,
-        nombre:nombre,
-        idFormulario: idFormulario
+    const query = 'SELECT * FROM evaluaciones WHERE id = ?';
+    connection.query(query, [idFormulario], (err, results) => {
+        if (err) {
+            console.error('Error al obtener los datos de la evaluación:', err);
+            return res.status(500).send('Hubo un error al obtener los datos de la evaluación.');
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('No se encontró la evaluación con el ID especificado.');
+        }
+
+        const evaluacion = results[0]; // Obtenemos la evaluación encontrada
+
+        res.render('evaluaciones', {
+            activePage: 'info',
+            title: 'info encuestas',
+            formulariosConImagenes: formulariosConImagenes,
+            nombre: nombre,
+            idFormulario: idFormulario,
+            evaluacion: evaluacion
+        });
     });
 });
 

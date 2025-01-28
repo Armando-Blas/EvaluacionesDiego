@@ -1,14 +1,15 @@
 // config/db.js
 const mysql = require('mysql2');
+require('dotenv').config();
 
 // Crear la conexión a la base de datos
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'evaluaciones'
+    host: process.env.MYSQLHOST,
+    port: process.env.MYSQLPORT,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQL_ROOT_PASSWORD,
+    database: process.env.MYSQL_DATABASE
 });
-
 // Conexión abierta con éxito
 connection.connect(err => {
     if (err) {
