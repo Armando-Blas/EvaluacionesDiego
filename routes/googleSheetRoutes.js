@@ -9,7 +9,7 @@ const auth = new google.auth.GoogleAuth({
         type: process.env.GOOGLE_TYPE,
         project_id: process.env.GOOGLE_PROJECT_ID,
         private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
-        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Reemplaza los saltos de línea
+        private_key: process.env.GOOGLE_PRIVATE_KEY, // Reemplaza los saltos de línea
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
         client_id: process.env.GOOGLE_CLIENT_ID,
         auth_uri: process.env.GOOGLE_AUTH_URI,
