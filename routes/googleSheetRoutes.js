@@ -1,10 +1,23 @@
 // routes/googleSheetRoutes.js
 const {google} = require("googleapis");
+require("dotenv").config();
 
 
 // Configurar la autenticación de Google
 const auth = new google.auth.GoogleAuth({
-    keyFile: "C:\\Users\\Seekop\\IdeaProjects\\IA\\EvaluacionesProyectR\\credentials\\evaluacionesResidencia.json", // Ruta al archivo JSON de credenciales
+    credentials: {
+        type: process.env.GOOGLE_TYPE,
+        project_id: process.env.GOOGLE_PROJECT_ID,
+        private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
+        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Reemplaza los saltos de línea
+        client_email: process.env.GOOGLE_CLIENT_EMAIL,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        auth_uri: process.env.GOOGLE_AUTH_URI,
+        token_uri: process.env.GOOGLE_TOKEN_URI,
+        auth_provider_x509_cert_url: process.env.GOOGLE_AUTH_PROVIDER_X509_CERT_URL,
+        client_x509_cert_url: process.env.GOOGLE_CLIENT_X509_CERT_URL,
+        universe_domain: process.env.GOOGLE_UNIVERSE_DOMAI,
+    },
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
 });
 
@@ -15,7 +28,7 @@ const spreadsheetId = "1eZvyu8GXV1e7A09n1ZuHJhjmb922qnfmarBcjoJchPI";
 async function getData() {
     try {
         const client = await auth.getClient();
-        const sheets = google.sheets({ version: "v4", auth: client });
+        const sheets = google.sheets({version: "v4", auth: client});
 
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId,
@@ -37,7 +50,7 @@ async function getData() {
             }, {});
         });
 
-        return { headers, data }; // Devuelve encabezados y datos procesados
+        return {headers, data}; // Devuelve encabezados y datos procesados
     } catch (error) {
         console.error("Error al obtener los datos:", error);
         throw error;
@@ -45,5 +58,4 @@ async function getData() {
 }
 
 
-
-module.exports = { getData };
+module.exports = {getData};
