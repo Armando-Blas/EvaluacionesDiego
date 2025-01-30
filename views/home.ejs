@@ -41,14 +41,6 @@
                 </a>
             </li>
 
-            <li class="nav-item <%= activePage === 'AplicarEncuesta' ? 'active' : '' %>">
-                <b></b>
-                <b></b>
-                <a href="/home/AplicarEncuesta">
-                    <i class="fa fa-calendar-check nav-icon"></i>
-                    <span class="nav-text">Aplicar Encuesta</span>
-                </a>
-            </li>
 
             <li class="nav-item <%= activePage === 'reportes' ? 'active' : '' %>">
                 <b></b>
@@ -99,7 +91,8 @@
                                     <h2>ING SISTEMAS</h2>
 
                                 </div>
-                                <button class="btn">ver</button>
+                                <a href="https://tesji.edomex.gob.mx/"
+                                   class="btn">ver</a>
                             </div>
 
                             <div class="day-and-activity activity-two">
@@ -110,7 +103,8 @@
                                 <div class="activity">
                                     <h2>ING CIVIL</h2>
                                 </div>
-                                <button class="btn">ver</button>
+                                <a href="https://tesji.edomex.gob.mx/"
+                                   class="btn">ver</a>
                             </div>
 
                             <div class="day-and-activity activity-three">
@@ -121,7 +115,8 @@
                                 <div class="activity">
                                     <h2>ING LOGISTICA</h2>
                                 </div>
-                                <button class="btn">ver</button>
+                                <a href="https://tesji.edomex.gob.mx/"
+                                   class="btn">ver</a>
                             </div>
 
                             <div class="day-and-activity activity-four">
@@ -133,7 +128,8 @@
                                     <h2>ING INDUSTRIAL</h2>
 
                                 </div>
-                                <button class="btn">ver</button>
+                                <a href="https://tesji.edomex.gob.mx/"
+                                   class="btn">ver</a>
                             </div>
                         </div>
                     </div>
@@ -193,7 +189,7 @@
             <% } else if (activePage === 'reportes') { %>
                 <div class="activity-container">
                     <% formulariosConImagenes.forEach((formulario) => { %>
-                        <div class="active-calories">
+                        <div class="active-calories tipo-<%= formulario.tipo %>">
                             <h1 style="align-self: flex-start">
                                 <%= formulario.nombre %>
                             </h1>
@@ -253,26 +249,6 @@
                 </div>
             </div>
 
-            <div class="mobile-personal-bests">
-                <h1>Personal Bests</h1>
-                <div class="personal-bests-container">
-                    <div class="best-item box-one">
-                        <p>Fastest 5K Run: 22min</p>
-                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/05dfc444-9ed3-44cc-96af-a9cf195f5820"
-                             alt=""/>
-                    </div>
-                    <div class="best-item box-two">
-                        <p>Longest Distance Cycling: 4 miles</p>
-                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/9ca170e9-1252-4fa6-8677-36493540c1f2"
-                             alt=""/>
-                    </div>
-                    <div class="best-item box-three">
-                        <p>Longest Roller-Skating: 2 hours</p>
-                        <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/262d1611-ed4c-4297-981c-480cf7f95714"
-                             alt=""/>
-                    </div>
-                </div>
-            </div>
 
             <div class="friends-activity">
                 <h1>FEATURES</h1>
@@ -370,8 +346,8 @@
                 if (item.type === "pie") {
                     // Gráfico circular
                     const option = {
-                        title: { left: "center" },
-                        tooltip: { trigger: "item", formatter: "{b} : {c} ({d}%)" },
+                        title: {left: "center"},
+                        tooltip: {trigger: "item", formatter: "{b} : {c} ({d}%)"},
                         series: [
                             {
                                 type: "pie",
@@ -392,10 +368,10 @@
                 } else if (item.type === "line") {
                     // Gráfico de línea para fechas
                     const option = {
-                        title: { left: "center" },
-                        tooltip: { trigger: "axis", formatter: "{b}: {c}" },
-                        xAxis: { type: "category", data: item.data.map((d) => d.name) },
-                        yAxis: { type: "value" },
+                        title: {left: "center"},
+                        tooltip: {trigger: "axis", formatter: "{b}: {c}"},
+                        xAxis: {type: "category", data: item.data.map((d) => d.name)},
+                        yAxis: {type: "value"},
                         series: [
                             {
                                 type: "line",
