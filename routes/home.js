@@ -60,7 +60,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/inicio', (req, res) => {
-    connection.query('SELECT e.nombre, e.url_imagen, e.url_excel, e.tipo  FROM evaluaciones e ', (err, results) => {
+    connection.query('SELECT e.id, e.nombre, e.url_imagen, e.url_excel, e.tipo  FROM evaluaciones e ', (err, results) => {
         if (err) {
             console.error('Error en la consulta:', err);
             return res.status(500).send('Error en la base de datos');
@@ -80,7 +80,7 @@ router.get('/inicio', (req, res) => {
             activePage: 'inicio',
             title: 'EVALUACIONES DOCENTES',
             formulariosConImagenes: formulariosConImagenes,
-            info: info
+            info
         });
     });
 });
