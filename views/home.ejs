@@ -11,7 +11,7 @@
 </head>
 <body>
 <main>
-    <nav class="main-menu">
+    <nav class="main-menu no-imprimir">
         <h1>DASHBOARD</h1>
         <ul>
             <li class="nav-item <%= activePage === 'inicio' ? 'active' : '' %>">
@@ -219,6 +219,9 @@
                     <div class="card-container">
                         <h1>Detalles de: <%= nombreFormulario %></h1>
 
+                        <!-- Botón para imprimir -->
+                        <button onclick="imprimirMetricas()" class="btn-imprimir btn">Imprimir reporte</button>
+
                         <% headers.forEach((header, index) => { %> <!-- Iterar sobre los encabezados -->
                         <div class="card-item">
                             <h3><%= header %></h3> <!-- Mostrar la pregunta (encabezado) -->
@@ -226,14 +229,14 @@
                             <div id="chart-<%= index %>" style="width: 600px; height: 400px;"></div>
                         </div>
                         <% }) %>
-                        <a href="/home/reportes">Regresar a reportes</a>
+                        <a href="/home/reportes" class="no-imprimir">Regresar a reportes</a>
                     </div>
                 </div>
             <% } %>
 
         </div>
 
-        <div class="right-content">
+        <div class="right-content no-imprimir">
             <div class="user-info">
 
                 <div class="icon-container">
@@ -326,6 +329,16 @@
     </section>
 </main>
 <script type="text/javascript">
+    function imprimirMetricas() {
+        // Ocultar elementos específicos
+        document.querySelectorAll('.no-imprimir').forEach(el => el.style.display = 'none');
+
+        // Ejecutar impresión
+        window.print();
+
+        // Restaurar elementos ocultos después de la impresión
+        document.querySelectorAll('.no-imprimir').forEach(el => el.style.display = '');
+    }
 
     // Asegúrate de que este script se cargue después de que los elementos HTML estén disponibles
     document.addEventListener("DOMContentLoaded", function () {

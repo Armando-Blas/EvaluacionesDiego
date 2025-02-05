@@ -159,6 +159,7 @@ main {
     display: grid;
     grid-template-columns: 75% 25%;
 }
+
 /*TABLA*/
 .details-table {
     margin-top: 20px;
@@ -258,16 +259,17 @@ main {
     grid-template-rows: repeat(10, 250px);
     column-gap: 10px;
 }
+
 .btn-icon {
     background: none;
     border: none;
-    font-size: 2rem;  /* Ajusta el tamaño de los iconos */
+    font-size: 2rem; /* Ajusta el tamaño de los iconos */
     cursor: pointer;
-    color: #333;  /* Color del icono */
+    color: #333; /* Color del icono */
 }
 
 .btn-icon:hover {
-    color: #007bff;  /* Color al pasar el cursor */
+    color: #007bff; /* Color al pasar el cursor */
 }
 
 .image-container {
@@ -525,6 +527,7 @@ main {
     border-radius: 25px;
     cursor: pointer;
 }
+
 .btnUsuarios {
     display: block;
     outline: none;
@@ -580,6 +583,7 @@ main {
     gap: 10px;
     margin-top: 10px;
 }
+
 .personal-bests-containerencuestas {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -606,6 +610,7 @@ main {
     font-size: 1rem;
     font-weight: 700;
 }
+
 /* Colores según el tipo */
 .box-one {
     flex-direction: row;
@@ -617,6 +622,12 @@ main {
     border-radius: 8px; /* Bordes redondeados */
     color: white;
     transition: background-color 0.3s ease; /* Transición suave */
+}
+
+@media print {
+    .no-imprimir, button {
+        display: none !important;
+    }
 }
 
 .box-one.tipo-0 {
@@ -698,7 +709,7 @@ main {
 
 .user-info {
     display: grid;
-    margin: 15px ;
+    margin: 15px;
     grid-template-columns: 20% 65% 15%;
     align-items: center;
 }
@@ -730,6 +741,7 @@ main {
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
 }
+
 .active-calories.tipo-0 {
     background-color: #28a745; /* Verde */
 }
